@@ -1,0 +1,17 @@
+{
+  "name": "kalaza-care-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp FAQ bot for Kalaza Care using Meta Cloud API + Groq",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5"
+  }
+}
