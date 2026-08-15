@@ -11,6 +11,20 @@ const app = express();
 app.use(express.json());
 
 // ---------------------------------------------------------------------------
+// CORS — allow the Vercel frontend to call this Railway backend.
+// Set ALLOWED_ORIGIN in Railway env vars to your Vercel deployment URL
+// (e.g. https://kalaza-care.vercel.app). Defaults to * for development.
+// ---------------------------------------------------------------------------
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
+});
+
+// ---------------------------------------------------------------------------
 // Config — all read from environment variables, set these in Railway.
 // ---------------------------------------------------------------------------
 const {
@@ -115,6 +129,42 @@ app.post("/webhook", async (req, res) => {
     } catch (sendErr) {
       console.error("Failed to send error notice:", sendErr);
     }
+  }
+});
+
+// ---------------------------------------------------------------------------
+// POST /chat — called by the Vercel web UI.
+// Body: { question: string }
+// Returns: { answer: string, suggestions: [{question, answer, category}] }
+// ---------------------------------------------------------------------------
+app.post("/chat", async (req, res) => {
+  const { question } = req.body || {};
+  if (!question || typeof question !== "string" || !question.trim()) {
+    return res.status(400).json({ error: "question is required" });
+  }
+
+  try {
+    const matches = retriever.retrieveTopK(question.trim(), 8);
+    const answer = await askGroq({
+      question: question.trim(),
+      matches,
+      apiKey: GROQ_API_KEY,
+      model: GROQ_MODEL,
+    });
+
+    // Compute suggestions: KB entries related to the question but not used
+    // as the primary answer sources.
+    const usedIdx = new Set(matches.map((m) => m._idx));
+    const allScored = retriever.scoreAll(question.trim());
+    const suggestions = allScored
+      .filter((s) => !usedIdx.has(s.i) && s.sim > 0.005)
+      .slice(0, 3)
+      .map((s) => ({ question: kb[s.i].question, answer: kb[s.i].answer, category: kb[s.i].category }));
+
+    return res.json({ answer, suggestions });
+  } catch (err) {
+    console.error("Error in /chat:", err);
+    return res.status(500).json({ error: err.message || "Internal server error" });
   }
 });
 

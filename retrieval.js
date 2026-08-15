@@ -121,7 +121,11 @@ function createRetriever(kb) {
     return selected.map(s => ({ ...kb[s.i], _sim: s.sim, _idx: s.i }));
   }
 
-  return { retrieveTopK };
+  function scoreAll(query) {
+    return scoreQuery(query, index, idf);
+  }
+
+  return { retrieveTopK, scoreAll };
 }
 
 module.exports = { createRetriever };

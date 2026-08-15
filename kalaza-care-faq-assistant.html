@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalaza Care — FAQ Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20302B;
+    --paper:#FAF7F0;
+    --deep:#1B4F4A;
+    --sage:#7FA99B;
+    --sage-soft:#E4EEE9;
+    --sand:#F0EAD6;
+    --marigold:#E8A33D;
+    --marigold-soft:#FBEAD1;
+    --line: rgba(27,79,74,0.16);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    min-height:100vh;
+  }
+  .app{
+    display:grid;
+    grid-template-columns: 340px 1fr;
+    min-height:100vh;
+  }
+  @media (max-width: 860px){
+    .app{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Left panel ---------- */
+  .setup{
+    background:var(--deep);
+    color:var(--paper);
+    padding:32px 28px;
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+    position:relative;
+    overflow:hidden;
+  }
+  .setup::before{
+    content:"";
+    position:absolute;
+    top:-120px; right:-120px;
+    width:280px; height:280px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(232,163,61,0.18), transparent 70%);
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    position:relative;
+    z-index:1;
+  }
+  .brand .mark{
+    width:38px;height:38px;
+    border-radius:10px;
+    background:var(--marigold);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    color:var(--deep);
+    font-size:19px;
+    margin-bottom:8px;
+  }
+  .brand h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:26px;
+    line-height:1.15;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .brand p{
+    margin:2px 0 0;
+    font-size:13.5px;
+    color:rgba(250,247,240,0.7);
+    line-height:1.5;
+  }
+
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    position:relative;
+    z-index:1;
+  }
+  .field label{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:rgba(250,247,240,0.65);
+    font-weight:500;
+  }
+  .field input[type=password],
+  .field input[type=text]{
+    background:rgba(250,247,240,0.08);
+    border:1px solid rgba(250,247,240,0.22);
+    border-radius:10px;
+    padding:11px 12px;
+    color:var(--paper);
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    outline:none;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .field input::placeholder{ color:rgba(250,247,240,0.35); }
+  .field input:focus{
+    border-color:var(--marigold);
+    background:rgba(250,247,240,0.12);
+  }
+  .field small{
+    color:rgba(250,247,240,0.55);
+    font-size:12px;
+    line-height:1.5;
+  }
+
+  .dropzone{
+    border:1.5px dashed rgba(250,247,240,0.32);
+    border-radius:12px;
+    padding:18px 14px;
+    text-align:center;
+    cursor:pointer;
+    transition: border-color .15s ease, background .15s ease;
+    position:relative;
+    z-index:1;
+  }
+  .dropzone:hover, .dropzone.drag{
+    border-color:var(--marigold);
+    background:rgba(232,163,61,0.08);
+  }
+  .dropzone input{ display:none; }
+  .dropzone .dz-title{ font-size:13.5px; font-weight:500; }
+  .dropzone .dz-sub{ font-size:12px; color:rgba(250,247,240,0.55); margin-top:4px; }
+
+  .status-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:rgba(250,247,240,0.75);
+    font-family:'JetBrains Mono', monospace;
+    position:relative;
+    z-index:1;
+  }
+  .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:#E8A33D;
+    flex-shrink:0;
+  }
+  .dot.ready{ background:#8FD4A8; }
+
+  .sample-btn{
+    background:transparent;
+    border:1px solid rgba(250,247,240,0.3);
+    color:rgba(250,247,240,0.85);
+    border-radius:10px;
+    padding:9px 12px;
+    font-size:12.5px;
+    font-family:'Work Sans', sans-serif;
+    cursor:pointer;
+    transition: background .15s ease, border-color .15s ease;
+    position:relative;
+    z-index:1;
+  }
+  .sample-btn:hover{ background:rgba(250,247,240,0.1); border-color:rgba(250,247,240,0.5); }
+
+  .setup-footer{
+    margin-top:auto;
+    font-size:11.5px;
+    color:rgba(250,247,240,0.4);
+    line-height:1.6;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- Right panel (chat) ---------- */
+  .chat-wrap{
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    max-height:100vh;
+  }
+  .chat-header{
+    padding:20px 32px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .chat-header h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:19px;
+    margin:0;
+  }
+  .chat-header .count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--sage);
+    background:var(--sage-soft);
+    padding:4px 10px;
+    border-radius:20px;
+  }
+
+  .messages{
+    flex:1;
+    overflow-y:auto;
+    padding:28px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+
+  .empty-state{
+    margin:auto;
+    text-align:center;
+    max-width:380px;
+    color:rgba(32,48,43,0.55);
+  }
+  .empty-state .glyph{
+    font-family:'Fraunces', serif;
+    font-size:38px;
+    color:var(--sage);
+    margin-bottom:10px;
+  }
+  .empty-state h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--ink);
+    font-size:18px;
+    margin:0 0 8px;
+  }
+  .empty-state p{ font-size:13.5px; line-height:1.6; margin:0; }
+
+  .msg{
+    display:flex;
+    gap:12px;
+    max-width:78%;
+  }
+  .msg.user{
+    align-self:flex-end;
+    flex-direction:row-reverse;
+  }
+  .avatar{
+    width:30px;height:30px;
+    border-radius:8px;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces', serif;
+    font-size:13px;
+    font-weight:600;
+  }
+  .msg.user .avatar{ background:var(--marigold-soft); color:#8A5A15; }
+  .msg.bot .avatar{ background:var(--deep); color:var(--paper); }
+
+  .bubble{
+    padding:13px 16px;
+    border-radius:var(--radius);
+    font-size:14.5px;
+    line-height:1.6;
+  }
+  .msg.user .bubble{
+    background:var(--deep);
+    color:var(--paper);
+    border-bottom-right-radius:4px;
+  }
+  .msg.bot .bubble{
+    background:#fff;
+    border:1px solid var(--line);
+    border-bottom-left-radius:4px;
+  }
+  .msg.bot .bubble.error{
+    background:#FDEDEC;
+    border-color:#EAB4AC;
+    color:#8A3A2E;
+  }
+
+  .suggestions{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px dashed var(--line);
+  }
+  .suggestions .sugg-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:rgba(32,48,43,0.45);
+    font-weight:500;
+    margin-bottom:2px;
+  }
+  .suggestion-chip{
+    font-family:'Work Sans', sans-serif;
+    font-size:13px;
+    text-align:left;
+    padding:8px 12px;
+    background:var(--marigold-soft);
+    color:#7A4E12;
+    border:1px solid rgba(232,163,61,0.4);
+    border-radius:10px;
+    cursor:pointer;
+    transition: background .15s ease, transform .1s ease;
+    line-height:1.4;
+  }
+  .suggestion-chip:hover{
+    background:#F6D9A6;
+  }
+  .suggestion-chip:active{
+    transform:scale(0.98);
+  }
+
+  .typing{
+    display:flex;
+    gap:4px;
+    padding:6px 2px;
+  }
+  .typing span{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--sage);
+    animation: bounce 1.1s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){ animation-delay:.15s; }
+  .typing span:nth-child(3){ animation-delay:.3s; }
+  @keyframes bounce{
+    0%,60%,100%{ transform:translateY(0); opacity:.5; }
+    30%{ transform:translateY(-4px); opacity:1; }
+  }
+
+  .composer{
+    border-top:1px solid var(--line);
+    padding:18px 32px 24px;
+  }
+  .composer-inner{
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:8px 8px 8px 16px;
+  }
+  .composer-inner:focus-within{
+    border-color:var(--sage);
+    box-shadow:0 0 0 3px rgba(127,169,155,0.15);
+  }
+  .composer textarea{
+    flex:1;
+    border:none;
+    outline:none;
+    resize:none;
+    font-family:'Work Sans', sans-serif;
+    font-size:14.5px;
+    line-height:1.5;
+    padding:8px 0;
+    max-height:120px;
+    color:var(--ink);
+    background:transparent;
+  }
+  .send-btn{
+    background:var(--deep);
+    color:var(--paper);
+    border:none;
+    width:40px;height:40px;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition: background .15s ease, transform .1s ease;
+  }
+  .send-btn:hover{ background:#153F3B; }
+  .send-btn:active{ transform:scale(0.94); }
+  .send-btn:disabled{ background:#B9C3C0; cursor:not-allowed; }
+  .composer-hint{
+    font-size:11.5px;
+    color:rgba(32,48,43,0.45);
+    margin-top:8px;
+    padding-left:4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- LEFT: Setup panel -->
+  <aside class="setup">
+    <div class="brand">
+      <div class="mark">K</div>
+      <h1>Kalaza Care</h1>
+      <p>FAQ Assistant — answers grounded only in your knowledge base, powered by Groq.</p>
+    </div>
+
+    <div class="field">
+      <label for="apiKey">Groq API key</label>
+      <input type="password" id="apiKey" placeholder="gsk_..." autocomplete="off">
+      <small>Stored only in this browser tab's memory. Never saved or sent anywhere but Groq.</small>
+    </div>
+
+    <div class="field">
+      <label for="modelName">Model</label>
+      <input type="text" id="modelName" value="llama-3.3-70b-versatile" placeholder="llama-3.3-70b-versatile">
+      <small>Any current Groq chat model ID. Check console.groq.com/docs/models if this one stops working.</small>
+    </div>
+
+    <div class="field">
+      <label>Knowledge base (JSON)</label>
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept="application/json">
+        <div class="dz-title">Click or drop your FAQ .json file</div>
+        <div class="dz-sub">Array of {"question","answer"} objects</div>
+      </div>
+      <div class="status-row">
+        <span class="dot" id="kbDot"></span>
+        <span id="kbStatus">No knowledge base loaded</span>
+      </div>
+      <button class="sample-btn" id="loadSample">Load sample FAQ data instead</button>
+    </div>
+
+    <div class="setup-footer">
+      Expected JSON shape:<br>
+      <code style="opacity:.8">[{"question":"...","answer":"...","category":"optional"}]</code>
+    </div>
+  </aside>
+
+  <!-- RIGHT: Chat -->
+  <main class="chat-wrap">
+    <div class="chat-header">
+      <h2>Ask a question</h2>
+      <span class="count" id="entryCount">0 FAQ entries loaded</span>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="empty-state" id="emptyState">
+        <div class="glyph">?</div>
+        <h3>Load a knowledge base to get started</h3>
+        <p>Upload your FAQ JSON on the left, or try the sample data. The assistant will only answer using what's in the file — no key or KB, no answers.</p>
+      </div>
+    </div>
+
+    <div class="composer">
+      <div class="composer-inner">
+        <textarea id="userInput" placeholder="Ask about Kalaza Care's programs, eligibility, volunteering…" rows="1"></textarea>
+        <button class="send-btn" id="sendBtn" aria-label="Send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12L20 4L13 20L11 13L4 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="composer-hint">Enter to send · Shift+Enter for a new line</div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+// ---------------- State ----------------
+let kb = [];          // [{question, answer, category}]
+let kbIndex = [];      // precomputed token freq per entry
+let idf = {};           // inverse doc frequency across kb
+let history = [];       // chat turns for display context (not sent to model, kept simple)
+
+const els = {
+  apiKey: document.getElementById('apiKey'),
+  modelName: document.getElementById('modelName'),
+  dropzone: document.getElementById('dropzone'),
+  fileInput: document.getElementById('fileInput'),
+  kbDot: document.getElementById('kbDot'),
+  kbStatus: document.getElementById('kbStatus'),
+  loadSample: document.getElementById('loadSample'),
+  entryCount: document.getElementById('entryCount'),
+  messages: document.getElementById('messages'),
+  emptyState: document.getElementById('emptyState'),
+  userInput: document.getElementById('userInput'),
+  sendBtn: document.getElementById('sendBtn'),
+};
+
+// ---------------- Retrieval: simple TF-IDF cosine similarity ----------------
+// Groups of interchangeable terms. If a query uses a word that never appears
+// in the knowledge base (e.g. "cost"), but a synonym does (e.g. "charges"),
+// we expand the query so retrieval still finds it.
+const SYNONYM_GROUPS = [
+  ["cost","costs","price","prices","pricing","fee","fees","charge","charges","charged","rate","rates","rates","expensive","afford","affordable","payment","pay","paying","tariff","budget"],
+  ["home","facility","facilities","accommodation","accomodation","accommodations","property","premises"],
+  ["stay","staying","stayed","reside","residing","live","living"],
+  ["admit","admission","admitting","join","joining","enroll","enrolling","enrol","enrolling","register","registration","book","booking","onboard"],
+  ["senior","seniors","elderly","old","aged","elder","elders"],
+  ["doctor","doctors","physician","physicians"],
+  ["nurse","nurses","nursing","caretaker","caretakers","caregiver","caregivers","clinical","staff"],
+  ["visit","visiting","visits","tour","tours","touring"],
+  ["food","meal","meals","diet","diets","dietary","nutrition","eating"],
+  ["room","rooms","bed","beds","flat","flats"],
+  ["activity","activities","recreation","recreational","engagement","games"],
+  ["document","documents","documentation","paperwork","forms","papers"],
+  ["patient","patients","resident","residents"],
+  ["ambulance","emergency"],
+  ["dementia","memory","alzheimer","alzheimers"],
+  ["cancer","palliative","terminal","hospice"],
+  ["transplant","transplants"],
+];
+const SYNONYM_INDEX = {};
+SYNONYM_GROUPS.forEach(group => {
+  group.forEach(word => { SYNONYM_INDEX[word] = group; });
+});
+
+function tokenize(text){
+  return (text || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(t => t.length > 1);
+}
+
+// Expand a query's tokens with synonyms that actually appear in the KB
+// vocabulary, so vague or differently-worded questions still retrieve
+// the right entries.
+function expandQueryTokens(tokens, localIdf){
+  const expanded = new Set(tokens);
+  tokens.forEach(t => {
+    const group = SYNONYM_INDEX[t];
+    if (group) {
+      group.forEach(w => { if (localIdf[w]) expanded.add(w); });
+    }
+  });
+  return Array.from(expanded);
+}
+
+function buildIndex(entries){
+  const docs = entries.map(e => tokenize((e.question || '') + ' ' + (e.answer || '')));
+  const df = {};
+  docs.forEach(tokens => {
+    new Set(tokens).forEach(t => { df[t] = (df[t] || 0) + 1; });
+  });
+  const N = docs.length || 1;
+  const localIdf = {};
+  Object.keys(df).forEach(t => { localIdf[t] = Math.log(1 + N / df[t]); });
+
+  const index = docs.map(tokens => {
+    const tf = {};
+    tokens.forEach(t => { tf[t] = (tf[t] || 0) + 1; });
+    const vec = {};
+    let norm = 0;
+    Object.keys(tf).forEach(t => {
+      const w = tf[t] * (localIdf[t] || 0);
+      vec[t] = w;
+      norm += w * w;
+    });
+    return { vec, norm: Math.sqrt(norm) || 1 };
+  });
+
+  return { index, idf: localIdf };
+}
+
+function scoreQuery(query, index, localIdf){
+  const tokens = expandQueryTokens(tokenize(query), localIdf);
+  const tf = {};
+  tokens.forEach(t => { tf[t] = (tf[t] || 0) + 1; });
+  const qvec = {};
+  let qnorm = 0;
+  Object.keys(tf).forEach(t => {
+    const w = tf[t] * (localIdf[t] || 0.0001);
+    qvec[t] = w;
+    qnorm += w * w;
+  });
+  qnorm = Math.sqrt(qnorm) || 1;
+
+  return index.map((doc, i) => {
+    let dot = 0;
+    Object.keys(qvec).forEach(t => {
+      if (doc.vec[t]) dot += doc.vec[t] * qvec[t];
+    });
+    const sim = dot / (doc.norm * qnorm);
+    return { i, sim };
+  }).sort((a, b) => b.sim - a.sim);
+}
+
+function retrieveTopK(query, k = 8){
+  if (!kb.length) return [];
+  const scored = scoreQuery(query, kbIndex, idf);
+  const strong = scored.filter(s => s.sim > 0.02);
+
+  // If the query is vague or broad and doesn't confidently match much,
+  // widen the net rather than risk sending the model too little to work
+  // with — for a small FAQ set it's cheap to just include everything.
+  let selected;
+  if (strong.length >= 3) {
+    selected = strong.slice(0, k);
+  } else if (kb.length <= 60) {
+    selected = scored.slice(0, kb.length);
+  } else {
+    selected = scored.slice(0, Math.max(k, 12));
+  }
+
+  return selected.map(s => ({ ...kb[s.i], _sim: s.sim, _idx: s.i }));
+}
+
+// Picks follow-up questions from the KB that are related to the current
+// question but weren't already used as the answer's cited sources.
+function getSuggestions(query, usedMatches, k = 3){
+  if (!kb.length) return [];
+  const usedIdx = new Set(usedMatches.map(m => m._idx));
+  const scored = scoreQuery(query, kbIndex, idf);
+
+  const suggestions = scored
+    .filter(s => !usedIdx.has(s.i) && s.sim > 0.005)
+    .slice(0, k)
+    .map(s => kb[s.i]);
+
+  // Backfill with other KB entries if there weren't enough related matches,
+  // so users always see a few things they can explore.
+  if (suggestions.length < k) {
+    const chosen = new Set(suggestions.map(s => s.question));
+    const remaining = kb.filter((e, i) => !usedIdx.has(i) && !chosen.has(e.question));
+    while (suggestions.length < k && remaining.length) {
+      const idx = Math.floor(Math.random() * remaining.length);
+      suggestions.push(remaining.splice(idx, 1)[0]);
+    }
+  }
+  return suggestions;
+}
+
+// ---------------- KB loading ----------------
+function setKbStatus(text, ready){
+  els.kbStatus.textContent = text;
+  els.kbDot.classList.toggle('ready', !!ready);
+}
+
+function ingestKB(raw, sourceLabel){
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    setKbStatus('Invalid JSON — could not parse file', false);
+    return;
+  }
+  if (!Array.isArray(parsed)) {
+    setKbStatus('JSON must be an array of {question, answer}', false);
+    return;
+  }
+  const cleaned = parsed
+    .map(e => ({
+      question: e.question || e.q || '',
+      answer: e.answer || e.a || '',
+      category: e.category || e.tag || ''
+    }))
+    .filter(e => e.question && e.answer);
+
+  if (!cleaned.length) {
+    setKbStatus('No valid entries found in file', false);
+    return;
+  }
+
+  kb = cleaned;
+  const built = buildIndex(kb);
+  kbIndex = built.index;
+  idf = built.idf;
+
+  setKbStatus(`Loaded from ${sourceLabel}`, true);
+  els.entryCount.textContent = `${kb.length} FAQ entr${kb.length === 1 ? 'y' : 'ies'} loaded`;
+}
+
+els.dropzone.addEventListener('click', () => els.fileInput.click());
+els.dropzone.addEventListener('dragover', e => { e.preventDefault(); els.dropzone.classList.add('drag'); });
+els.dropzone.addEventListener('dragleave', () => els.dropzone.classList.remove('drag'));
+els.dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  els.dropzone.classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) readFile(file);
+});
+els.fileInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) readFile(file);
+});
+function readFile(file){
+  const reader = new FileReader();
+  reader.onload = () => ingestKB(reader.result, file.name);
+  reader.onerror = () => setKbStatus('Could not read file', false);
+  reader.readAsText(file);
+}
+
+const SAMPLE_FAQ = [
+  { question: "What services does Kalaza Care provide?", answer: "Kalaza Care runs community health outreach, maternal and child nutrition support, and a volunteer-led home-visit program for elderly residents in the areas we serve.", category: "General" },
+  { question: "How do I volunteer with Kalaza Care?", answer: "Fill out the volunteer interest form on our website, attend a short orientation session, and complete a background check. New volunteer cohorts typically start on the first Saturday of each month.", category: "Volunteering" },
+  { question: "Who is eligible for the nutrition support program?", answer: "The nutrition support program is open to pregnant and nursing mothers and children under five who live within our registered service area. Proof of address and a clinic referral or ID are required at intake.", category: "Eligibility" },
+  { question: "How can I donate to Kalaza Care?", answer: "Donations can be made through the 'Donate' page on our website via card or bank transfer. We also accept in-kind donations of non-perishable food and children's clothing at our main office during business hours.", category: "Donations" },
+  { question: "Is Kalaza Care a registered nonprofit?", answer: "Yes, Kalaza Care is a registered nonprofit organization. Our annual reports and financial disclosures are published on our website for transparency.", category: "General" },
+  { question: "What are your office hours?", answer: "Our main office is open Monday to Friday, 9am to 5pm, and Saturday mornings from 9am to 1pm for donation drop-offs and walk-in inquiries.", category: "Contact" }
+];
+els.loadSample.addEventListener('click', () => {
+  ingestKB(JSON.stringify(SAMPLE_FAQ), 'sample data');
+});
+
+// ---------------- Chat UI ----------------
+function addMessage(role, html, suggestions){
+  els.emptyState.style.display = 'none';
+  const msg = document.createElement('div');
+  msg.className = `msg ${role}`;
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.textContent = role === 'user' ? 'You' : 'K';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerHTML = html;
+
+  if (suggestions && suggestions.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'suggestions';
+    const label = document.createElement('div');
+    label.className = 'sugg-label';
+    label.textContent = 'You might also ask';
+    wrap.appendChild(label);
+    suggestions.forEach(s => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'suggestion-chip';
+      chip.textContent = s.question;
+      chip.addEventListener('click', () => useSuggestion(s.question));
+      wrap.appendChild(chip);
+    });
+    bubble.appendChild(wrap);
+  }
+
+  msg.appendChild(avatar);
+  msg.appendChild(bubble);
+  els.messages.appendChild(msg);
+  els.messages.scrollTop = els.messages.scrollHeight;
+  return bubble;
+}
+
+// Clicking a suggested question fills the composer for review/editing —
+// it does NOT send automatically.
+function useSuggestion(text){
+  els.userInput.value = text;
+  autosize();
+  els.userInput.focus();
+  // put the cursor at the end so the user can start editing immediately
+  els.userInput.setSelectionRange(text.length, text.length);
+  els.userInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function addTyping(){
+  const msg = document.createElement('div');
+  msg.className = 'msg bot';
+  msg.id = 'typingMsg';
+  msg.innerHTML = `<div class="avatar">K</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  els.messages.appendChild(msg);
+  els.messages.scrollTop = els.messages.scrollHeight;
+}
+function removeTyping(){
+  const el = document.getElementById('typingMsg');
+  if (el) el.remove();
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+async function handleSend(){
+  const question = els.userInput.value.trim();
+  if (!question) return;
+
+  if (!els.apiKey.value.trim()) {
+    addMessage('bot', 'Add your Groq API key on the left panel first.', null);
+    return;
+  }
+  if (!kb.length) {
+    addMessage('bot', 'Load a knowledge base (JSON upload or sample data) before asking questions.', null);
+    return;
+  }
+
+  addMessage('user', escapeHtml(question));
+  els.userInput.value = '';
+  autosize();
+  addTyping();
+  els.sendBtn.disabled = true;
+
+  try {
+    const matches = retrieveTopK(question, 8);
+    const answer = await askGroq(question, matches);
+    const suggestions = getSuggestions(question, matches, 3);
+    removeTyping();
+    addMessage('bot', formatAnswer(answer), suggestions);
+  } catch (err) {
+    removeTyping();
+    const bubble = addMessage('bot', escapeHtml(err.message || 'Something went wrong reaching Groq.'), null);
+    bubble.classList.add('error');
+  } finally {
+    els.sendBtn.disabled = false;
+  }
+}
+
+function formatAnswer(text){
+  return escapeHtml(text).replace(/\n/g, '<br>');
+}
+
+async function askGroq(question, matches){
+  const context = matches.length
+    ? matches.map((m, i) => `[${i + 1}] Q: ${m.question}\nA: ${m.answer}`).join('\n\n')
+    : 'No relevant entries were found in the knowledge base.';
+
+  const systemPrompt = `You are the FAQ assistant for Kalaza Care, a senior living, at-home care, and medical recovery facility. Answer the user's question using ONLY the knowledge base excerpts provided below, which have been retrieved from the full knowledge base as the entries most relevant to this question.
+Rules:
+- Read through ALL of the excerpts below before answering, not just the first one — they may each cover a different piece of the answer (e.g. separate excerpts for shared-room pricing, single-room pricing, palliative pricing, and discounts all together answer a general question about "cost").
+- Synthesize every excerpt that is relevant into one complete, well-organized answer. Do not ignore relevant excerpts just because an earlier one already partly answered the question.
+- If the question is broad (e.g. "what is the cost?", "what do you offer?"), cover all the relevant angles found in the excerpts rather than picking just one.
+- Give a clear, warm, concise answer in your own words — use short lists for things like pricing tiers if that makes it easier to read.
+- If none of the excerpts actually answer the question, say you don't have that information in the knowledge base and suggest the user contact Kalaza Care directly. Do not make anything up or answer from general knowledge.
+- Do not mention "excerpts", "context", "knowledge base", or that you are an AI model; just answer naturally as Kalaza Care's assistant.
+
+Knowledge base excerpts (most relevant to this question, in order):
+${context}`;
+
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${els.apiKey.value.trim()}`
+    },
+    body: JSON.stringify({
+      model: els.modelName.value.trim() || 'llama-3.3-70b-versatile',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: question }
+      ],
+      temperature: 0.3,
+      max_tokens: 500
+    })
+  });
+
+  if (!res.ok) {
+    const errBody = await res.text();
+    let detail = errBody;
+    try { detail = JSON.parse(errBody).error?.message || errBody; } catch(e) {}
+    throw new Error(`Groq API error (${res.status}): ${detail}`);
+  }
+
+  const data = await res.json();
+  const content = data.choices?.[0]?.message?.content;
+  if (!content) throw new Error('Groq returned an empty response.');
+  return content.trim();
+}
+
+function autosize(){
+  els.userInput.style.height = 'auto';
+  els.userInput.style.height = Math.min(els.userInput.scrollHeight, 120) + 'px';
+}
+
+els.userInput.addEventListener('input', autosize);
+els.userInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleSend();
+  }
+});
+els.sendBtn.addEventListener('click', handleSend);
+</script>
+</body>
+</html>
