@@ -15,9 +15,12 @@ app.use(express.json());
 // Set ALLOWED_ORIGIN in Railway env vars to your Vercel deployment URL
 // (e.g. https://kalaza-care.vercel.app). Defaults to * for development.
 // ---------------------------------------------------------------------------
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
+const ALLOWED_ORIGIN = (process.env.ALLOWED_ORIGIN || "*").replace(/\/$/, "");
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
+  const origin = req.headers.origin;
+  // Allow if wildcard, or if origin matches (trailing-slash-tolerant)
+  const allow = ALLOWED_ORIGIN === "*" || (origin && origin.replace(/\/$/, "") === ALLOWED_ORIGIN);
+  res.setHeader("Access-Control-Allow-Origin", allow ? (origin || "*") : ALLOWED_ORIGIN);
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.sendStatus(204);
