@@ -30,7 +30,7 @@ In your Railway project → **Variables** tab, add:
 | `WHATSAPP_ACCESS_TOKEN` | Meta Business Suite → System Users → your system user → Generate Token (needs `whatsapp_business_management` + `whatsapp_business_messaging`) |
 | `WHATSAPP_PHONE_NUMBER_ID` | Meta app dashboard → WhatsApp → API Setup → "Phone number ID" field |
 | `GROQ_API_KEY` | console.groq.com → API Keys |
-| `GROQ_MODEL` | Optional, defaults to `qwen/qwen3.6-27b` |
+| `GROQ_MODEL` | Optional, defaults to `openai/gpt-oss-120b` |
 
 Don't set `PORT` — Railway sets it automatically.
 

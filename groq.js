@@ -27,7 +27,7 @@ ${context}`;
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: model || "qwen/qwen3.6-27b",
+      model: model || "openai/gpt-oss-120b",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: question },
