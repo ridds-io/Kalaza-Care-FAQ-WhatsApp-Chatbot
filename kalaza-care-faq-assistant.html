@@ -413,7 +413,7 @@
 
     <div class="field">
       <label for="modelName">Model</label>
-      <input type="text" id="modelName" value="llama-3.3-70b-versatile" placeholder="llama-3.3-70b-versatile">
+      <input type="text" id="modelName" value="qwen/qwen3.6-27b" placeholder="qwen/qwen3.6-27b">
       <small>Any current Groq chat model ID. Check console.groq.com/docs/models if this one stops working.</small>
     </div>
 
@@ -832,7 +832,7 @@ ${context}`;
       'Authorization': `Bearer ${els.apiKey.value.trim()}`
     },
     body: JSON.stringify({
-      model: els.modelName.value.trim() || 'llama-3.3-70b-versatile',
+      model: els.modelName.value.trim() || 'qwen/qwen3.6-27b',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: question }

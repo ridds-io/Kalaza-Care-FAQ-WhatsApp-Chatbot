@@ -35,7 +35,7 @@ const {
   WHATSAPP_ACCESS_TOKEN, // permanent token from your System User
   WHATSAPP_PHONE_NUMBER_ID, // from WhatsApp > API Setup in the Meta app dashboard
   GROQ_API_KEY,
-  GROQ_MODEL,            // optional, defaults to llama-3.3-70b-versatile
+  GROQ_MODEL,            // optional, defaults to qwen/qwen3.6-27b
   PORT,
 } = process.env;
 
